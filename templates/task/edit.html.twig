@@ -4,17 +4,18 @@
 
 {% block body %}
 
-    <div>
-        <h1>Editer une tâche</h1>
+    <div class="pt-3">
+        <h1 class="text-center">Editer une tâche</h1>
     </div>
-    <div>
+    <div class="container mt-4">
         {{ form_start(form) }}
         {{ form_rest(form) }}
-        <button>Editer</button>
+        <div class="pt-3">
+            <button class="btn btn-primary">Editer</button>
+            <a href="{{ path('tasks', {id: task.todoList.id}) }}">Retour</a>
+        </div>
+
         {{ form_end(form) }}
-    </div>
-    <div>
-        <a href="{{ path('tasks', {id: task.todoList.id}) }}">Retour</a>
     </div>
 
 {% endblock %}

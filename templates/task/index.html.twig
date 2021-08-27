@@ -4,45 +4,64 @@
 
 {% block body %}
 
-    <div>
-        {% for message in app.flashes('success') %}
-            <div class="alert alert-success">
+    {% for message in app.flashes('success') %}
+        <div class="p-5 justify-content-center">
+            <div class="alert alert-success" role="alert">
                 {{ message }}
             </div>
-        {% endfor %}
-    </div>
+        </div>
+    {% endfor %}
 
-    <div>
-        <table>
-            <tbody>
-            {% for task in tasks %}
+    <div class="p-3 row justify-content-center">
+        <div class="col-6">
+            <table class="table table-striped">
+                <thead>
                 <tr>
-                    <td class="{% if task.done == true %} green {% else %} red {% endif %}">{{ task.description }}</td>
-                    <td><button><a href="{{ path('tasks_edit', {id: task.id}) }}">Editer</a></button></td>
-                    <td>
-                        <form method="post" action="{{ path('tasks_delete' , {id: task.id}) }}" onsubmit="return confirm('Comfirmer la suppression')">
-                            <input type="hidden" name="_method" value="DELETE">
-                            <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ task.id) }}">
-                            <button class="btn btn-dark">Supprimer</button>
-                        </form>
-                    </td>
+                    <th>Tâches</th>
+                    <th></th>
+                    <th></th>
                 </tr>
-            {% endfor %}
-            </tbody>
-        </table>
-    </div>
-
-    <div id="data-todo" data-todo="{{ todolist.id }}">
-        <h2>Ajouter une tâche</h2>
-        <div>
-            {{ form_start(form) }}
-            {{ form_rest(form) }}
-            <button>Créer</button>
-            {{ form_end(form) }}
+                </thead>
+                <tbody>
+                {% for task in tasks %}
+                    <tr>
+                        <td style="color:{% if task.done == true %} green {% else %} red {% endif %};">{{ task.description }}</td>
+                        <td><button class="btn btn-primary"><a href="{{ path('tasks_edit', {id: task.id}) }}" style="text-decoration: none; color: white;">Editer</a></button></td>
+                        <td>
+                            <form method="post" action="{{ path('tasks_delete' , {id: task.id}) }}" onsubmit="return confirm('Comfirmer la suppression')">
+                                <input type="hidden" name="_method" value="DELETE">
+                                <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ task.id) }}">
+                                <button class="btn btn-danger">Supprimer</button>
+                            </form>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
         </div>
     </div>
 
     <div>
+
+    </div>
+
+    <div class="p-3 row justify-content-center">
+        <button class="col-2 btn btn-primary" id="add-task">
+            Ajouter une tâche
+        </button>
+    </div>
+
+    <div id="data-todo" class="container mt-4" data-todo="{{ todolist.id }}" style="display: none">
+        <h2>Nouvelle tâche</h2>
+        <div>
+            {{ form_start(form) }}
+            {{ form_rest(form) }}
+            <button class="btn btn-primary mt-3">Créer</button>
+            {{ form_end(form) }}
+        </div>
+    </div>
+
+    <div class="p-3">
         <a href="/">Retour</a>
     </div>
 
@@ -52,6 +71,9 @@
     <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
     <script>
       $(document).ready(function (){
+        $('#add-task').click(function (){
+          $('#data-todo').slideDown();
+        })
         $('#task_TodoList').val($('#data-todo').data('todo'));
       })
     </script>

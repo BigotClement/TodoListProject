@@ -30,10 +30,11 @@ class TaskType extends AbstractType
             ->add('Description', TextareaType::class,[
                 'label' => false,
                 'attr' => [
-                    'placeholder' => 'Déscription',
+                    'placeholder' => 'Description',
                 ]
             ])
             ->add('Done', CheckboxType::class, [
+                'label' => 'Terminée',
                 'required' => false,
             ])
             ->add('TodoList', HiddenType::class)
