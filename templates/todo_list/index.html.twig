@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}TodoList{% endblock %}
+
+{% block body %}
+
+
+    <div>
+        {% for message in app.flashes('success') %}
+            <div class="alert alert-success">
+                {{ message }}
+            </div>
+        {% endfor %}
+    </div>
+
+    <div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Nom</th>
+                    <th>Nombre de tâches</th>
+                    <th>Voir les tâches</th>
+                    <th>Editer</th>
+                    <th>Supprimer</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for todoList in TodoLists %}
+                    <tr>
+                        <td>{{ todoList.name }}</td>
+                        <td>{{ todoList.tasks | length}}</td>
+                        <td><button><a href=""></a></button></td>
+                        <td><button><a href="{{ path('todo_list_edit', {id: todoList.id}) }}">Editer</a></button></td>
+                        <td>
+                            <form method="post" action="{{ path('todo_list_delete' , {id: todoList.id}) }}" onsubmit="return confirm('Comfirmer la suppression')">
+                                <input type="hidden" name="_method" value="DELETE">
+                                <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ todoList.id) }}">
+                                <button class="btn btn-dark">Supprimer</button>
+                            </form>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <div>
+        <button>
+            <a href="{{ path('todo_list_new') }}">Créer une TodoList</a>
+        </button>
+    </div>
+
+{% endblock %}
