@@ -29,7 +29,7 @@
                     <tr>
                         <td>{{ todoList.name }}</td>
                         <td>{{ todoList.tasks | length}}</td>
-                        <td><button><a href=""></a></button></td>
+                        <td><button><a href="{{ path('tasks', {id: todoList.id}) }}">Voir les tâches</a></button></td>
                         <td><button><a href="{{ path('todo_list_edit', {id: todoList.id}) }}">Editer</a></button></td>
                         <td>
                             <form method="post" action="{{ path('todo_list_delete' , {id: todoList.id}) }}" onsubmit="return confirm('Comfirmer la suppression')">

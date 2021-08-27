@@ -9,6 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -86,7 +87,8 @@ class TodoListController extends AbstractController
     /**
      * @Route("/delete-{id}", name="todo_list_delete", methods="DELETE")
      */
-    public function delete(TodoList $todoList, Request $request){
+    public function delete(TodoList $todoList, Request $request): RedirectResponse
+    {
         if ($this->isCsrfTokenValid('delete' . $todoList->getID(), $request->get('_token'))) {
             $em = $this->getDoctrine()->getManager();
             $em->remove($todoList);
