@@ -26,13 +26,19 @@
                 </thead>
                 <tbody>
                     {% for todoList in TodoLists %}
+                        {% set allDone = true %}
+                        {% for task in todoList.tasks %}
+                            {% if task.done == false %}
+                                {% set allDone = false %}
+                            {% endif %}
+                        {% endfor %}
                         <tr>
                             <td>{{ todoList.name }}</td>
                             <td>{{ todoList.tasks | length}}</td>
                             <td><button class="btn btn-primary"><a href="{{ path('tasks', {id: todoList.id}) }}" style="text-decoration: none; color: white;">Voir les tâches</a></button></td>
                             <td><button class="btn btn-primary"><a href="{{ path('todo_list_edit', {id: todoList.id}) }}" style="text-decoration: none; color: white;">Editer</a></button></td>
                             <td>
-                                <form method="post" action="{{ path('todo_list_delete' , {id: todoList.id}) }}" onsubmit="return confirm('Comfirmer la suppression')">
+                                <form method="post" action="{{ path('todo_list_delete' , {id: todoList.id}) }}" onsubmit="return confirm('{% if allDone == false %}Toutes les tâches ne sont pas terminées. {% endif %}Comfirmer la suppression')">
                                     <input type="hidden" name="_method" value="DELETE">
                                     <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ todoList.id) }}">
                                     <button class="btn btn-danger">Supprimer</button>
